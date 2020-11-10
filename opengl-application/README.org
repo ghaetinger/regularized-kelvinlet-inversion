@@ -6,11 +6,14 @@ given inside the command line.
 * Requirements
 
 + OpenCV4
+
   Paths relative to "opencv4/opencv2/..." must exist. If you need to, change the
   header files to point to the correct OpenCV files. *Technically only needs OpenCV2*.
 + GLFW & glew
+
   OpenGL libraries installed
 + GPU Support
+
   Needs to run with GPU access. In hybrid OPTIMUS environments, use *primusrun*.
 
 * Usage
