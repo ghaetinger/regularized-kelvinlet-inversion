@@ -1,0 +1,77 @@
+#+TITLE: OpenGL Implementation for Kelvinlet Video Warping Inversion
+
+We implement Video Time Warping in an OpenGL interface. The warping command is
+given inside the command line.
+
+* Requirements
+
++ OpenCV4
+  Paths relative to "opencv4/opencv2/..." must exist. If you need to, change the
+  header files to point to the correct OpenCV files. *Technically only needs OpenCV2*.
++ GLFW & glew
+  OpenGL libraries installed
++ GPU Support
+  Needs to run with GPU access. In hybrid OPTIMUS environments, use *primusrun*.
+
+* Usage
+
+You can use the debugging/log environment variable *KELVIN* with the following
+flags with increasing log levels:
+
++ =FATAL=
++ =ERROR=
++ =WARNING=
++ =DEBUG=
++ =CORRECT= - Shows all
+
+The following arguments are required in the following order:
+
++ =video path=
+
+  Path to video
++ =elastic shear mod=
+
+  Elastic shear modulus
++ =possion ratio=
+
+  Poisson Ratio
++ =x=
+
+  Click x-coordinate
++ =y=
+
+  Click y-coordinate
++ =t=
+
+  Click time-coordinate
++ =fx=
+
+  Drag vector x-value
++ =fy=
+
+  Drag vector y-value
++ =ft=
+
+  Drag vector time-value
++ =radius=
+
+  Brush radius
++ =should fix borders=
+
+  Fix borders flag (1 = true, 0 = false)
++ =should save=
+
+  Save output video flag (1 = true, 0 = false)
+
+Example:
+
+#+BEGIN_SRC bash
+make
+env KELVIN=DEBUG primusrun ./kelvin path/to/video.mp4 1.0 0.4 50 50 50 0 0 -30 50 0 1
+#+END_SRC
+
+* Non invertible field detection
+
+Non invertible detection is somewhat implemented
+with a color warning: If there are red dots in the deformation, it means it
+reached a non invertible field.

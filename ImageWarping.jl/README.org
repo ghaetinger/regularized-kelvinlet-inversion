@@ -1,0 +1,103 @@
+#+TITLE: Julia Implementation for the Kelvinlet Inversion
+
+Here, we have the Julia package *ImageWarping.jl* implementation. This carries,
+within, the functions and abstractions needed to warp images with all the
+features described in the paper.
+
+We are still working on fitting the abstractions to video cleanly. For now, we
+only provide deformation with images as input.
+
+* Importing Package
+The package isn't available in the Julia package repository because it is more
+of a proof of concept. *Future work entails generalizing inversion warping for
+nonlinear deformation fields!*
+
+Since it's a local package, we import it as follows:
+
+#+BEGIN_SRC julia :session kelvin :async yes :exports both :results pandoc
+pwd() |> display
+pushfirst!(LOAD_PATH, pwd())
+using ImageWarping
+ImageWarping |> names |> display
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+: "/home/dewey/Build/KelvinletsPaper/julia-inversion"
+: 2-element Array{Symbol,1}:
+:  :ImageWarping
+:  :Kelvinlets
+:END:
+
+We export two modules from *ImageWarping*: =ImageWarping, Kelvinlets=. Both have
+non exported names that conduct the inversion process.
+
+* Inversion Parameters
+
+For every inversion process, you will want to have a parameter dictionary as
+well as an image/video described before the function calls, for the sake of
+organization. Here is an example:
+
+#+BEGIN_SRC julia :session kelvin :async yes :exports both :results pandoc
+using Colors, ColorSchemes, Images
+
+# Grid image generation functions
+include("./experiments/utils.jl")
+
+# Converting just in case
+color_grid = RGB{Float64}.(testimage_grid_colorful(20, 20))
+# Simple Interpolation Image
+image_struct = ImageWarping.LinearInterpolatedImage(color_grid)
+
+x0 = [250, 250] # Click point
+f0 = [125, 70]  # Drag vector
+
+parameter_dict = (
+    # Brush Size
+    epsilon      = 70,
+    # Poisson Ratio
+    poiss        = 0.4,
+    # Fixed Borders
+    fixed_border = false,
+    # Domain Size (2D/3D and dimensions)
+    domain_size  = ImageWarping.size(image_struct)
+)
+
+# Create parameter struct
+kelvinlet_object = Kelvinlets.Kelvinlet(x0, f0; parameter_dict...)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Kelvinlet{Float64} in 2-D without fixed border and parameters:
+  pivot = [250.0, 250.0]
+  force = [125.0, 70.0]
+  poiss = 0.4
+  epsilon = 70.0
+  elshear = 1.0
+  a = 0.07957747154594767
+  b = 0.033157279810811534
+  c = 11.599726720946931
+  domain_size = [421.0, 421.0]
+#+end_example
+
+Note that you can use the following names instead of *LinearInterpolatedImate*:
+
++ *MipmappedImage* - Provides /mipmapping/ and enables non invertible field
+  detection
++ *ContinuousImage* - Provides support for /fractal/ functions
+
+
+* Simple Warp Inversion
+
+We'll use the previous example to compute a simple warp:
+
+#+BEGIN_SRC julia :session kelvin :async yes :exports both :results pandoc
+warped_image = ImageWarping.warp_simple(kelvinlet_object, image_struct)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+: Inversion parameters: (max_iter = 50, threshold = 0.1, GN_damping = 0.5, LM_param = 0.0, LM_update = 0.5, LM_mat = :identity)
+[[file:./.ob-jupyter/588ae16f47614628a9a660c5d89b0a04e624c478.png]]
+:END:

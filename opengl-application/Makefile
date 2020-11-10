@@ -1,0 +1,43 @@
+CC=g++
+SRC=./src/
+BIN=./bin/
+KELVIN=./kelvin
+
+MAIN=$(SRC)main.cpp
+MAIN_OBJECT=$(BIN)main.o
+GLINIT=$(SRC)glInitialization.cpp
+GLINIT_OBJECT=$(BIN)glInitialization.o
+TEXTLOAD=$(SRC)textureLoading.cpp
+TEXTLOAD_OBJECT=$(BIN)textureLoading.o
+SHADER_COMPILER=$(SRC)ShaderCompiler.cpp
+SHADER_COMPILER_OBJECT=$(BIN)ShaderCompiler.o
+
+LOGGER=$(SRC)Logger/Logger.cpp
+LOGGER_OBJECT=$(BIN)Logger.o
+
+OPENGL_FLAGS=-lpthread -lX11 -std=c++11 -lglfw -lGLEW -lglut -lGL -lfreeimage
+OPENCV_FLAGS=`pkg-config opencv4 --cflags --libs`
+FLAGS=$(OPENGL_FLAGS) $(OPENCV_FLAGS)
+
+DEPENDECIES=$(MAIN_OBJECT) $(LOGGER_OBJECT) $(SHADER_COMPILER_OBJECT) $(GLINIT_OBJECT) $(TEXTLOAD_OBJECT)
+
+$(KELVIN): $(DEPENDECIES)
+	$(CC) -o $(KELVIN) $(MAIN_OBJECT) $(LOGGER_OBJECT) $(SHADER_COMPILER_OBJECT) $(GLINIT_OBJECT) $(TEXTLOAD_OBJECT) $(FLAGS)
+
+$(MAIN_OBJECT): $(MAIN)
+	$(CC) -o $(MAIN_OBJECT) -c $(MAIN) $(FLAGS)
+
+$(SHADER_COMPILER_OBJECT): $(SHADER_COMPILER)
+	$(CC) -o $(SHADER_COMPILER_OBJECT) -c $(SHADER_COMPILER) $(FLAGS)
+
+$(GLINIT_OBJECT): $(GLINIT)
+	$(CC) -o $(GLINIT_OBJECT) -c $(GLINIT) $(FLAGS)
+
+$(TEXTLOAD_OBJECT): $(TEXTLOAD)
+	$(CC) -o $(TEXTLOAD_OBJECT) -c $(TEXTLOAD) $(FLAGS)
+
+$(LOGGER_OBJECT): $(LOGGER)
+	$(CC) -o $(LOGGER_OBJECT) -c $(LOGGER) $(FLAGS)
+
+clean:
+	rm ./bin/*

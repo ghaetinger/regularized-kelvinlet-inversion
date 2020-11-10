@@ -1,0 +1,21 @@
+#+TITLE: Kelvinlet Paper
+
+This repository contains the implementation for our
+[[http://sibgrapi.sid.inpe.br/col/sid.inpe.br/sibgrapi/2020/09.28.21.20/doc/Kelvinlets_Final_Haetinger_Gastal_2020.pdf][Regularized
+Kelvinlet Inversion for Real-Time Image Deformation and Video Time Warping]]
+
+* Authors
+
++ Guilherme Gomes Haetinger
+  + /gghaetinger@inf.ufrgs.br/
+  + [[inf.ufrgs.br/~gghaetinger]]
++ Eduardo S. L. Gastal
+  + /eslgastal@inf.ufrgs.br/
+  + [[inf.ufrgs.br/~eslgastal]]
+
+* Files
+
++ =opengl-application= : OpenGL implementation of video time warping using the
+  Kelvinlet grab brush.
++ =ImageWarping.jl= : Julia implementation of a inverse Image warping
+  Kelvinlet based package.
