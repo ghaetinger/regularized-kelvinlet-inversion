@@ -1,8 +1,7 @@
-#+TITLE: Kelvinlet Paper
+#+TITLE: Regularized Kelvinlet Inversion for Real-Time Image Deformation and Video Time Warping - Implementation
 
 This repository contains the implementation for our
-[[http://sibgrapi.sid.inpe.br/col/sid.inpe.br/sibgrapi/2020/09.28.21.20/doc/Kelvinlets_Final_Haetinger_Gastal_2020.pdf][Regularized
-Kelvinlet Inversion for Real-Time Image Deformation and Video Time Warping]]
+[[http://sibgrapi.sid.inpe.br/col/sid.inpe.br/sibgrapi/2020/09.28.21.20/doc/Kelvinlets_Final_Haetinger_Gastal_2020.pdf][paper]]
 
 * Authors
 
